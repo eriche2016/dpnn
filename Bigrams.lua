@@ -1,26 +1,27 @@
 local Bigrams, parent = torch.class("nn.Bigrams", "nn.Module")
 
 --Function taken by torchx Aliasmultinomial.lua 
+-- Alias method: sampling from discrete probability distribution 
 function Bigrams:setup(probs)
-   assert(probs:dim() == 1)
-   local K = probs:nElement()
-   local q = probs.new(K):zero()
-   local J = torch.LongTensor(K):zero()
+   assert(probs:dim() == 1)   -- probs must be 1 dim 
+   local K = probs:nElement() -- K is the number of probabilities 
+   local q = probs.new(K):zero() -- q = [0, 0, ..., 0]: size K
+   local J = torch.LongTensor(K):zero() -- J = [0, 0, ..., 0], size K
 
    -- Sort the data into the outcomes with probabilities
    -- that are larger and smaller than 1/K.
-   local smaller, larger = {}, {}
+   local smaller, larger = {}, {} -- smaller stores income data with probabilities less than 1/K, vice versa for larger table 
    local maxk, maxp = 0, -1
    for kk = 1,K do
       local prob = probs[kk]
-      q[kk] = K*prob
+      q[kk] = K*prob  -- set q[kk] be K*probs[kk]
       if q[kk] < 1 then
-         table.insert(smaller, kk)
+         table.insert(smaller, kk) -- storing indices ranging from 1 to K 
       else
          table.insert(larger, kk)
       end
-      if maxk > maxp then
-         
+      if maxk > maxp then  -- maxk = 0, maxp = -1 
+  
       end
    end
    
@@ -28,10 +29,10 @@ function Bigrams:setup(probs)
    -- appropriately allocate the larger outcomes over the
    -- overall uniform mixture.
    while #smaller > 0 and #larger > 0 do
-      local small = table.remove(smaller)
+      local small = table.remove(smaller) -- remove last element from table smaller 
       local large = table.remove(larger)
 
-      J[small] = large
+      J[small] = large  
       q[large] = q[large] - (1.0 - q[small])
 
       if q[large] < 1.0 then
