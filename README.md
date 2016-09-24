@@ -88,17 +88,6 @@ A table that specifies the name of gradient w.r.t. parameter attributes.
 Defaults to `{'gradWeight', 'gradBias'}`, which is a static variable (i.e. table exists in class namespace). 
 Sub-classes can define their own table statically. 
 
-<a name='nn.Module.type'></a>
-### [self] Module:type(type_str) ###
-
-This function converts all the parameters of a module to the given `type_str`. 
-The `type_str` can be one of the types defined for [torch.Tensor](https://github.com/torch/torch7/blob/master/doc/tensor.md)
-like `torch.DoubleTensor`, `torch.FloatTensor` and `torch.CudaTensor`. 
-Unlike the [type method](https://github.com/torch/nn/blob/master/doc/module.md#nn.Module.type)
-defined in [nn](https://github.com/torch/nn), this one was overriden to 
-maintain the sharing of [storage](https://github.com/torch/torch7/blob/master/doc/storage.md#storage)
-among Tensors. This is especially useful when cloning modules share `parameters` and `gradParameters`.
-
 <a name='nn.Module.sharedClone'></a>
 ### [clone] Module:sharedClone([shareParams, shareGradParams]) ###
 
