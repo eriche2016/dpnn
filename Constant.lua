@@ -6,12 +6,16 @@
 -- You can use this with nn.ConcatTable() to append constant inputs to
 -- an input : nn.ConcatTable():add(nn.Constant(v)):add(nn.Identity()) .
 ------------------------------------------------------------------------
+
+-- this module has no trainable parameters 
+-- useful when you want to output a value that 
+-- is independent of the input to the neural network
 local Constant, parent = torch.class("nn.Constant", "nn.Module")
 
 -- value: torch.Tensor 
 function Constant:__init(value, nInputDim)
    self.value = value
-   if torch.type(self.value) == 'number' then
+   if torch.type(self.value) == 'number' then  -- if value is a number, convert it to a torch.Tensor object
       self.value = torch.Tensor{self.value}
    end
    assert(torch.isTensor(self.value), "Expecting number or tensor at arg 1")
