@@ -1,8 +1,11 @@
 local Container = nn.Container
 
+-- add additional methods for nn.Container
+
 -- multi-add
 function Container:extend(...)
    for i,module in ipairs{...} do
+      -- add multiple modules to self(container)
       self:add(module)
    end
    return self
