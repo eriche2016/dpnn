@@ -12,15 +12,15 @@ function Collapse:updateOutput(input)
       self._input:resize(input:size()):copy(input)
       input = self._input
    end
-   if input:dim() > self.nInputDim then
-      self.output:view(input,input:size(1),-1)
-   else
-      self.output:view(input,-1)
+   if input:dim() > self.nInputDim then -- has batch dim 
+      self.output:view(input,input:size(1),-1) -- bz x (-1)
+   else  -- not has batch dim    
+      self.output:view(input,-1)               -- (-1)
    end
    return self.output
 end
 
 function Collapse:updateGradInput(input, gradOutput)
-   self.gradInput:view(gradOutput, input:size())
+   self.gradInput:view(gradOutput, input:size()) -- view gradOutput as size of input:size() 
    return self.gradInput
 end
