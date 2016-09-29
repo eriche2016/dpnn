@@ -565,22 +565,23 @@ function Module:contiguousInput(input, backward)
 end
 
 function Module:toBatch(tensor, nDim, batchDim)
-   local batchDim = batchDim or 1
+   local batchDim = batchDim or 1  -- by default, we set it to be 1 
    if tensor:dim() == nDim then
       self.dpnn_online = true
       local size = tensor:size():totable()
-      table.insert(size, batchDim, 1)
-      tensor = tensor:view(table.unpack(size))
+      table.insert(size, batchDim, 1)  -- size: batchDim(by default be 1) x oldSize 
+      tensor = tensor:view(table.unpack(size))  -- tesor will have batch dimension(the 1st dim)
    else
       self.dpnn_online = false
    end
    return tensor
 end
 
+-- remove batchDim
 function Module:fromBatch(tensor, batchDim)
    if self.dpnn_online then
       local size = tensor:size():totable()
-      assert(table.remove(size, batchDim) == 1)
+      assert(table.remove(size, batchDim) == 1)  -- remove batchDim
       tensor = tensor:view(table.unpack(size))
    end
    return tensor
