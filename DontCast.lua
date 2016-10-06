@@ -1,5 +1,9 @@
 local DontCast, parent = torch.class("nn.DontCast", "nn.Decorator")
 
+-- This class is a decorator which decorates a module, 
+-- such that we will not cast this module, and can handle its input and output 
+-- enven if input and the module type are of differenct type
+
 -- utility functions 
 
 local function recursiveTypeCopy(dst, src, type_str)
