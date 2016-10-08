@@ -15,7 +15,7 @@ function ReinforceBernoulli:updateOutput(input)
       -- sample from bernoulli with P(output=1) = input
       self._uniform = self._uniform or input.new()
       self._uniform:resizeAs(input):uniform(0,1)
-      self.output:lt(self._uniform, input)
+      self.output:lt(self._uniform, input) -- output is a mask, which every element is either 0 or 1
    else
       -- use p for evaluation
       self.output:copy(input)
