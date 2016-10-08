@@ -24,7 +24,7 @@ function OneHot:updateOutput(input)
    end
    table.insert(size, self.outputSize)
    
-   self.output:resize(unpack(size)):zero()
+   self.output:resize(unpack(size)):zero() -- self.output are inherited from nn.module, which is just torch.Tensor()
    
    size[#size] = 1
    local input_ = input:view(unpack(size))
